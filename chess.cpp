@@ -1,4 +1,5 @@
 #include <iostream>
+#include "piece_board.h"
 
 using namespace std;
 
@@ -12,29 +13,7 @@ using namespace std;
 //
 //devins bit idea for castle memory (maybe)
 
-
-
-class Piece {
-    public:
-        char type;
-        int col;
-        int row;
-        int moves;
-        bool moved;
-        bool passantable;
-
-        int* listMoves() {
-            return;
-        }
-};
-
-class Board {
-    Piece board[64];
-    void printBoard() {
-        return;
-    }
-};
-
 int main() {
-
+    Board board;
+    board.printBoard();
 }

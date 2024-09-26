@@ -104,7 +104,7 @@ void printBoard(Piece *&board)
         white_square = (i + i / 8) % 2 == 0;
         if (i % 8 == 0)
         {
-            cout << endl;
+            cout << "\033[0m" << endl;
         }
         if (white_square)
         {

@@ -34,8 +34,9 @@ class Piece {
 
 class Board {
     public:
-        Piece board[64];
+        Piece* board;
         Board() {
+            board = new Piece[64];
             for (int i = 0; i < 16; i++) {
                 switch (i)
                 {
@@ -81,6 +82,7 @@ class Board {
                 } else {
                     cout << ' ';
                 }
-            }    
+            }
+            cout << endl;    
         }
 };

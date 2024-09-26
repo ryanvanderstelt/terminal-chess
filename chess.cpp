@@ -1,5 +1,5 @@
 #include <iostream>
-#include "piece_board.h"
+#include "piece.h"
 
 using namespace std;
 

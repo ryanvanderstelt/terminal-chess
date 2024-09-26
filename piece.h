@@ -2,12 +2,6 @@
 
 using namespace std;
 
-struct Move
-{
-    int moveFrom;
-    int moveTo;
-};
-
 struct Piece
 {
 public:
@@ -24,9 +18,5 @@ public:
         type = piece_type;
         col = location % 8;
         row = location / 8;
-    }
-    void move(Move move, Piece *board)
-    {
-        board[move.moveTo] = board[move.moveFrom];
     }
 };

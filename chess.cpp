@@ -31,15 +31,18 @@ Game Plan:
 
 void initializeBoard(Piece *&board);
 
-void printBoard(Piece *&board);
+void printSquare(Piece *board, int loc);
+
+void printBoard(Piece *&board, bool pov_white);
 
 int main()
 {
     Piece *board;
+    bool isWhitesTurn = true;
     bool not_checkmate = true;
 
     initializeBoard(board);
-    printBoard(board);
+    printBoard(board, isWhitesTurn);
     cout << "Welcome to Terminal Chess!\nType the coordinate of the piece you want to move to get started: " << endl;
     // while (not_checkmate) {
 
@@ -89,7 +92,39 @@ void initializeBoard(Piece *&board)
     }
 }
 
-void printBoard(Piece *&board)
+void printBoard(Piece *&board, bool pov_white)
+{
+    if (pov_white)
+    {
+        for (int i = 0; i < 64; i++)
+        {
+            if (i % 8 == 0)
+            {
+                cout << "\033[0m" << endl
+                     << ' ' << 8 - i / 8 << ' ';
+            }
+            printSquare(board, i);
+        }
+        cout << "\033[0m" << endl
+             << "    a  b  c  d  e  f  g  h" << endl;
+    }
+    else
+    {
+        for (int i = 63; i > -1; i--)
+        {
+            if ((i + 1) % 8 == 0)
+            {
+                cout << "\033[0m" << endl
+                     << ' ' << 8 - i / 8 << ' ';
+            }
+            printSquare(board, i);
+        }
+        cout << "\033[0m" << endl
+             << "    h  g  f  e  d  c  b  a" << endl;
+    }
+}
+
+void printSquare(Piece *board, int loc)
 {
     string rook[2] = {"\u2656", "\u265C"};
     string knight[2] = {"\u2658", "\u265E"};
@@ -97,77 +132,68 @@ void printBoard(Piece *&board)
     string queen[2] = {"\u2655", "\u265B"};
     string king[2] = {"\u2654", "\u265A"};
     string pawn[2] = {"\u2659", "\u265F"};
-    bool white_square;
 
-    for (int i = 0; i < 64; i++)
+    bool white_square = (loc + loc / 8) % 2 == 0;
+
+    if (white_square)
     {
-        white_square = (i + i / 8) % 2 == 0;
-        if (i % 8 == 0)
-        {
-            cout << "\033[0m" << endl;
-        }
-        if (white_square)
-        {
-            cout << "\033[30;47m";
-        }
-        else
-        {
-            cout << "\033[37;40m";
-        }
-        switch (board[i].type)
-        {
-        case 'r':
-            cout << ' ' << rook[white_square] << ' ';
-            break;
-
-        case 'n':
-            cout << ' ' << knight[white_square] << ' ';
-            break;
-
-        case 'b':
-            cout << ' ' << bishop[white_square] << ' ';
-            break;
-
-        case 'q':
-            cout << ' ' << queen[white_square] << ' ';
-            break;
-
-        case 'k':
-            cout << ' ' << king[white_square] << ' ';
-            break;
-
-        case 'p':
-            cout << ' ' << pawn[white_square] << ' ';
-            break;
-
-        case 'R':
-            cout << ' ' << rook[!white_square] << ' ';
-            break;
-
-        case 'N':
-            cout << ' ' << knight[!white_square] << ' ';
-            break;
-
-        case 'B':
-            cout << ' ' << bishop[!white_square] << ' ';
-            break;
-
-        case 'Q':
-            cout << ' ' << queen[!white_square] << ' ';
-            break;
-
-        case 'K':
-            cout << ' ' << king[!white_square] << ' ';
-            break;
-
-        case 'P':
-            cout << ' ' << pawn[!white_square] << ' ';
-            break;
-
-        default:
-            cout << "   ";
-        }
+        cout << "\033[30;47m";
     }
-    cout << "\033[0m" << endl
-         << endl;
+    else
+    {
+        cout << "\033[37;40m";
+    }
+    switch (board[loc].type)
+    {
+    case 'r':
+        cout << ' ' << rook[white_square] << ' ';
+        break;
+
+    case 'n':
+        cout << ' ' << knight[white_square] << ' ';
+        break;
+
+    case 'b':
+        cout << ' ' << bishop[white_square] << ' ';
+        break;
+
+    case 'q':
+        cout << ' ' << queen[white_square] << ' ';
+        break;
+
+    case 'k':
+        cout << ' ' << king[white_square] << ' ';
+        break;
+
+    case 'p':
+        cout << ' ' << pawn[white_square] << ' ';
+        break;
+
+    case 'R':
+        cout << ' ' << rook[!white_square] << ' ';
+        break;
+
+    case 'N':
+        cout << ' ' << knight[!white_square] << ' ';
+        break;
+
+    case 'B':
+        cout << ' ' << bishop[!white_square] << ' ';
+        break;
+
+    case 'Q':
+        cout << ' ' << queen[!white_square] << ' ';
+        break;
+
+    case 'K':
+        cout << ' ' << king[!white_square] << ' ';
+        break;
+
+    case 'P':
+        cout << ' ' << pawn[!white_square] << ' ';
+        break;
+
+    default:
+        cout << "   ";
+    }
 }

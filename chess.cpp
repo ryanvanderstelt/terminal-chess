@@ -40,6 +40,7 @@ int main()
 
     initializeBoard(board);
     printBoard(board);
+    cout << "Welcome to Terminal Chess!\nType the coordinate of the piece you want to move to get started: " << endl;
     // while (not_checkmate) {
 
     // }

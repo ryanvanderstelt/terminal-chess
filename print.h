@@ -7,11 +7,7 @@ using namespace std;
 
 void printSquare(Piece **board, int loc, vector<int> moves = {})
 {
-    if (board[loc])
-    {
-        cout << "   ";
-        return;
-    }
+
     string rook[2] = {"\u2656", "\u265C"};
     string knight[2] = {"\u2658", "\u265E"};
     string bishop[2] = {"\u2657", "\u265D"};
@@ -42,6 +38,11 @@ void printSquare(Piece **board, int loc, vector<int> moves = {})
     else
     {
         cout << "\033[37;40m";
+    }
+    if (!board[loc])
+    {
+        cout << "   ";
+        return;
     }
     switch (board[loc]->type)
     {

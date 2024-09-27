@@ -38,7 +38,6 @@ int main()
 {
     Piece **board;
     bool isWhitesTurn = true;
-    bool validPiece;
     bool validMove;
     char col_row[2];
     int coord;

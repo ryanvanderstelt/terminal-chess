@@ -1,4 +1,6 @@
 #include <iostream>
+#include <vector>
+#pragma once
 
 using namespace std;
 
@@ -20,4 +22,10 @@ public:
         col = location % 8;
         row = location / 8;
     }
+    vector<int> listMoves();
 };
+
+vector<int> Piece::listMoves()
+{
+    cout << "what" << endl;
+}

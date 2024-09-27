@@ -1,9 +1,12 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 #include "piece.h"
 
 using namespace std;
 
 // devins bit idea for castle memory (maybe)
+// potentially refactor to array of pointers to Pieces
 
 /*
 
@@ -31,22 +34,67 @@ Game Plan:
 
 void initializeBoard(Piece *&board);
 
-void printSquare(Piece *board, int loc);
+void printSquare(Piece *board, int loc, vector<int> moves = {});
 
-void printBoard(Piece *&board, bool pov_white);
+void printBoard(Piece *board, bool pov_white, vector<int> moves = {});
 
 int main()
 {
     Piece *board;
     bool isWhitesTurn = true;
-    bool not_checkmate = true;
+    bool validPiece;
+    bool validMove;
+    char col_row[2];
+    int coord;
 
     initializeBoard(board);
     printBoard(board, isWhitesTurn);
-    cout << "Welcome to Terminal Chess!\nType the coordinate of the piece you want to move to get started: " << endl;
-    // while (not_checkmate) {
-
-    // }
+    cout << "Welcome to Terminal Chess!" << endl;
+    while (true)
+    {
+        validMove = false;
+        if (isWhitesTurn)
+        {
+            cout << "White's Turn!" << endl;
+        }
+        else
+        {
+            cout << "Black's Turn!" << endl;
+        }
+        while (!validMove)
+        {
+            while (true)
+            {
+                cout << "Enter coord of piece: ";
+                cin >> col_row;
+                coord = 56 + (col_row[0] - 'a') - 8 * (col_row[1] - '1');
+                if (islower(board[coord].type) != isWhitesTurn)
+                {
+                    break;
+                }
+            }
+            vector<int> listMoves;
+            //
+            // List all possible moves for selected piece
+            //
+            printBoard(board, isWhitesTurn, listMoves); // should be changed to show a list of available moves as a seperate color
+            cout << endl
+                 << "Enter coord of destination: ";
+            cin >> col_row;
+            //
+            // See if coord is a valid move for selected piece
+            //
+            validMove = true;
+        }
+        //
+        // Execute move
+        // See if check
+        // If check, see if checkmate
+        // If checkmate, exit loop and print final board (maybe move history as a later feature)
+        //
+        isWhitesTurn = !isWhitesTurn;
+        printBoard(board, isWhitesTurn);
+    }
 }
 
 void initializeBoard(Piece *&board)
@@ -92,7 +140,7 @@ void initializeBoard(Piece *&board)
     }
 }
 
-void printBoard(Piece *&board, bool pov_white)
+void printBoard(Piece *board, bool pov_white, vector<int> moves)
 {
     if (pov_white)
     {
@@ -103,7 +151,7 @@ void printBoard(Piece *&board, bool pov_white)
                 cout << "\033[0m" << endl
                      << ' ' << 8 - i / 8 << ' ';
             }
-            printSquare(board, i);
+            printSquare(board, i, moves);
         }
         cout << "\033[0m" << endl
              << "    a  b  c  d  e  f  g  h" << endl;
@@ -117,14 +165,14 @@ void printBoard(Piece *&board, bool pov_white)
                 cout << "\033[0m" << endl
                      << ' ' << 8 - i / 8 << ' ';
             }
-            printSquare(board, i);
+            printSquare(board, i, moves);
         }
         cout << "\033[0m" << endl
              << "    h  g  f  e  d  c  b  a" << endl;
     }
 }
 
-void printSquare(Piece *board, int loc)
+void printSquare(Piece *board, int loc, vector<int> moves)
 {
     string rook[2] = {"\u2656", "\u265C"};
     string knight[2] = {"\u2658", "\u265E"};
@@ -135,7 +183,21 @@ void printSquare(Piece *board, int loc)
 
     bool white_square = (loc + loc / 8) % 2 == 0;
 
-    if (white_square)
+    if (count(moves.begin(), moves.end(), loc) > 0)
+    {
+        cout << "\033[46m";
+        if (isupper(board[loc].type))
+        {
+            white_square = 0;
+            cout << "\033[37m";
+        }
+        else
+        {
+            white_square = 1;
+            cout << "\033[30m";
+        }
+    }
+    else if (white_square)
     {
         cout << "\033[30;47m";
     }

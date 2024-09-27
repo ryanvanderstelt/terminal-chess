@@ -34,3 +34,7 @@
 # The stupid binary file that I won't bother making an entire rule for because it is extensionless
 
 chess
+
+# vscode pls stop doing this to me idk how to fix it yet
+
+*.json

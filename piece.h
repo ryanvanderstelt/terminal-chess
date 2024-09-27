@@ -11,8 +11,9 @@ public:
     bool moved = false;
     bool passantable = false;
 
-    Piece() {
-    };
+    Piece()
+    {
+    }
     Piece(char piece_type, int location)
     {
         type = piece_type;

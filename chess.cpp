@@ -90,9 +90,14 @@ int main()
         //
         // Execute move  !!!FIGURE OUT EN PASSANT!!!
         // See if check
-        // If check, see if checkmate
-        // If checkmate, exit loop and print final board (maybe move history as a later feature)
-        //
+        if (isCheck(board, isWhitesTurn))
+        {
+            if (isCheckmate(board, isWhitesTurn))
+            {
+                break;
+            }
+            cout << "Check!";
+        }
         isWhitesTurn = !isWhitesTurn;
         printBoard(board, isWhitesTurn);
     }

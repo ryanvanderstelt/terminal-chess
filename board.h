@@ -55,7 +55,9 @@ void destroyBoard(Piece **&board)
 }
 bool isCheck(Piece **board, bool isWhitesTurn)
 {
+    return false;
 }
 bool isCheckmate(Piece **board, bool isWhitesTurn)
 {
+    return false;
 }

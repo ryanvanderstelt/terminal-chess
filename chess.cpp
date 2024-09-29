@@ -37,16 +37,15 @@ int main()
 {
     Piece **board;
     bool isWhitesTurn = true;
-    bool validMove;
-    char col_row[2];
-    int coord;
 
     initializeBoard(board);
     printBoard(board, isWhitesTurn);
     cout << "Welcome to Terminal Chess!" << endl;
     while (true)
     {
-        validMove = false;
+        int coord;
+        bool validMove = false;
+
         if (isWhitesTurn)
         {
             cout << "White's Turn!" << endl;
@@ -55,33 +54,41 @@ int main()
         {
             cout << "Black's Turn!" << endl;
         }
+
         while (!validMove)
         {
+            char col_row[2];
+            vector<int> moves_list;
+            vector<int> print_list;
             while (true)
             {
                 cout << "Enter coord of piece: ";
                 cin >> col_row;
                 coord = (col_row[0] - 'a') + 8 * (col_row[1] - '1');
-                if (coord > -1 && coord < 64 && board[coord] && board[coord]->type != isWhitesTurn)
+                if (coord > -1 && coord < 64 && board[coord] && (islower(board[coord]->type) > 0) != isWhitesTurn)
                 {
+                    cout << board[coord]->type << endl
+                         << islower(board[coord]->type) << endl;
                     break;
                 }
             }
-            vector<int> listMoves;
-            //
-            // List all possible moves for selected piece
-            //
-            printBoard(board, isWhitesTurn, listMoves);
+
+            print_list.push_back(coord);
+            moves_list = board[coord]->listMoves(board);
+            print_list.insert(moves_list.end(), moves_list.begin(), moves_list.end());
+
+            printBoard(board, isWhitesTurn, print_list);
             cout << endl
                  << "Enter coord of destination: ";
             cin >> col_row;
             //
             // See if coord is a valid move for selected piece
+            // If selected move is an ally, treat it as the selected piece
             //
             validMove = true;
         }
         //
-        // Execute move
+        // Execute move  !!!FIGURE OUT EN PASSANT!!!
         // See if check
         // If check, see if checkmate
         // If checkmate, exit loop and print final board (maybe move history as a later feature)

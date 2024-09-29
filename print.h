@@ -17,18 +17,32 @@ void printSquare(Piece **board, int loc, vector<int> moves = {})
 
     bool white_square = (loc + loc / 8 + 1) % 2 == 0;
 
-    if (count(moves.begin(), moves.end(), loc) > 0)
+    if (!moves.empty() && loc == moves.front())
     {
-        cout << "\033[46m";
+
         if (isupper(board[loc]->type))
         {
             white_square = 0;
-            cout << "\033[37m";
+            cout << "\033[37;46m";
         }
         else
         {
             white_square = 1;
-            cout << "\033[30m";
+            cout << "\033[30;46m";
+        }
+    }
+    else if (count(moves.begin(), moves.end(), loc) > 0)
+    {
+
+        if (isupper(board[loc]->type))
+        {
+            white_square = 0;
+            cout << "\033[37;42m";
+        }
+        else
+        {
+            white_square = 1;
+            cout << "\033[30;42m";
         }
     }
     else if (white_square)
@@ -39,6 +53,7 @@ void printSquare(Piece **board, int loc, vector<int> moves = {})
     {
         cout << "\033[37;40m";
     }
+
     if (!board[loc])
     {
         cout << "   ";
@@ -96,7 +111,7 @@ void printSquare(Piece **board, int loc, vector<int> moves = {})
 
     default:
         break;
-    }
+    };
 }
 
 void printBoard(Piece **board, bool pov_white, vector<int> moves = {})
@@ -117,7 +132,7 @@ void printBoard(Piece **board, bool pov_white, vector<int> moves = {})
         }
         cout << "\033[0m" << endl
              << "    a  b  c  d  e  f  g  h" << endl;
-        }
+    }
     else
     {
         for (int i = 0; i < 8; i++)

@@ -8,6 +8,9 @@
 using namespace std;
 
 // devins bit idea for castle memory (maybe)
+// think about a handleInput function
+// think about a function that returns a list of moves in a line (diagnols too)
+// think about refactoring board into a proper struct with functions
 
 /*
 
@@ -84,6 +87,8 @@ int main()
             //
             // See if coord is a valid move for selected piece
             // If selected move is an ally, treat it as the selected piece
+            // may have to create temporary boards to see if king is in check
+            // OR just one temp board without selected piece (smart maybe)
             //
             validMove = true;
         }

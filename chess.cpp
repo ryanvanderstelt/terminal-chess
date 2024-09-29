@@ -8,7 +8,6 @@
 using namespace std;
 
 // devins bit idea for castle memory (maybe)
-// potentially refactor to array of pointers to Pieces
 
 /*
 
@@ -62,8 +61,8 @@ int main()
             {
                 cout << "Enter coord of piece: ";
                 cin >> col_row;
-                coord = 56 + (col_row[0] - 'a') - 8 * (col_row[1] - '1');
-                if (islower(board[coord]->type) != isWhitesTurn)
+                coord = (col_row[0] - 'a') + 8 * (col_row[1] - '1');
+                if (coord > -1 && coord < 64 && board[coord] && board[coord]->type != isWhitesTurn)
                 {
                     break;
                 }
@@ -72,7 +71,7 @@ int main()
             //
             // List all possible moves for selected piece
             //
-            printBoard(board, isWhitesTurn, listMoves); // should be changed to show a list of available moves as a seperate color
+            printBoard(board, isWhitesTurn, listMoves);
             cout << endl
                  << "Enter coord of destination: ";
             cin >> col_row;

@@ -15,7 +15,7 @@ void printSquare(Piece **board, int loc, vector<int> moves = {})
     string king[2] = {"\u2654", "\u265A"};
     string pawn[2] = {"\u2659", "\u265F"};
 
-    bool white_square = (loc + loc / 8) % 2 == 0;
+    bool white_square = (loc + loc / 8 + 1) % 2 == 0;
 
     if (count(moves.begin(), moves.end(), loc) > 0)
     {
@@ -103,28 +103,34 @@ void printBoard(Piece **board, bool pov_white, vector<int> moves = {})
 {
     if (pov_white)
     {
-        for (int i = 0; i < 64; i++)
+        for (int i = 7; i > -1; i--)
         {
-            if (i % 8 == 0)
+            for (int j = 0; j < 8; j++)
             {
-                cout << "\033[0m" << endl
-                     << ' ' << 8 - i / 8 << ' ';
+                if (j == 0)
+                {
+                    cout << "\033[0m" << endl
+                         << ' ' << i + 1 << ' ';
+                }
+                printSquare(board, 8 * i + j, moves);
             }
-            printSquare(board, i, moves);
         }
         cout << "\033[0m" << endl
              << "    a  b  c  d  e  f  g  h" << endl;
-    }
+        }
     else
     {
-        for (int i = 63; i > -1; i--)
+        for (int i = 0; i < 8; i++)
         {
-            if ((i + 1) % 8 == 0)
+            for (int j = 7; j > -1; j--)
             {
-                cout << "\033[0m" << endl
-                     << ' ' << 8 - i / 8 << ' ';
+                if (j == 7)
+                {
+                    cout << "\033[0m" << endl
+                         << ' ' << i + 1 << ' ';
+                }
+                printSquare(board, 8 * i + j, moves);
             }
-            printSquare(board, i, moves);
         }
         cout << "\033[0m" << endl
              << "    h  g  f  e  d  c  b  a" << endl;

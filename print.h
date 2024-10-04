@@ -1,11 +1,11 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "piece.h"
+#include "board.h"
 
 using namespace std;
 
-void printSquare(Piece **board, int loc, vector<int> moves = {})
+void printSquare(Board &board, int loc, vector<int> moves = {})
 {
 
     string rook[2] = {"\u2656", "\u265C"};
@@ -20,7 +20,7 @@ void printSquare(Piece **board, int loc, vector<int> moves = {})
     if (!moves.empty() && loc == moves.front())
     {
 
-        if (isupper(board[loc]->type))
+        if (isupper(board.board[loc]->type))
         {
             white_square = 0;
             cout << "\033[37;46m";
@@ -34,7 +34,7 @@ void printSquare(Piece **board, int loc, vector<int> moves = {})
     else if (count(moves.begin(), moves.end(), loc) > 0)
     {
 
-        if (isupper(board[loc]->type))
+        if (isupper(board.board[loc]->type))
         {
             white_square = 0;
             cout << "\033[37;42m";
@@ -54,12 +54,12 @@ void printSquare(Piece **board, int loc, vector<int> moves = {})
         cout << "\033[37;40m";
     }
 
-    if (!board[loc])
+    if (!board.board[loc])
     {
         cout << "   ";
         return;
     }
-    switch (board[loc]->type)
+    switch (board.board[loc]->type)
     {
     case 'r':
         cout << ' ' << rook[white_square] << ' ';
@@ -114,7 +114,7 @@ void printSquare(Piece **board, int loc, vector<int> moves = {})
     };
 }
 
-void printBoard(Piece **board, bool pov_white, vector<int> moves = {})
+void printBoard(Board &board, bool pov_white, vector<int> moves = {})
 {
     if (pov_white)
     {

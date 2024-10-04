@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "piece.h"
 #include "print.h"
 #include "board.h"
 
@@ -38,10 +37,9 @@ Game Plan:
 
 int main()
 {
-    Piece **board;
+    Board board;
     bool isWhitesTurn = true;
 
-    initializeBoard(board);
     printBoard(board, isWhitesTurn);
     cout << "Welcome to Terminal Chess!" << endl;
     while (true)
@@ -68,16 +66,16 @@ int main()
                 cout << "Enter coord of piece: ";
                 cin >> col_row;
                 coord = (col_row[0] - 'a') + 8 * (col_row[1] - '1');
-                if (coord > -1 && coord < 64 && board[coord] && (islower(board[coord]->type) > 0) != isWhitesTurn)
+                if (coord > -1 && coord < 64 && board.board[coord] && (islower(board.board[coord]->type) > 0) != isWhitesTurn)
                 {
-                    cout << board[coord]->type << endl
-                         << islower(board[coord]->type) << endl;
+                    cout << board.board[coord]->type << endl
+                         << islower(board.board[coord]->type) << endl;
                     break;
                 }
             }
 
             print_list.push_back(coord);
-            moves_list = board[coord]->listMoves(board);
+            moves_list = board.listMoves(coord);
             print_list.insert(moves_list.end(), moves_list.begin(), moves_list.end());
 
             printBoard(board, isWhitesTurn, print_list);
@@ -95,9 +93,9 @@ int main()
         //
         // Execute move  !!!FIGURE OUT EN PASSANT!!!
         // See if check
-        if (isCheck(board, isWhitesTurn))
+        if (board.inCheck(isWhitesTurn))
         {
-            if (isCheckmate(board, isWhitesTurn))
+            if (board.isCheckmate(isWhitesTurn))
             {
                 break;
             }
@@ -115,5 +113,4 @@ int main()
     {
         cout << "Black Wins!";
     }
-    destroyBoard(board);
 }

@@ -140,36 +140,47 @@ void printBoard(Board &board, vector<int> moves = {})
 {
     if (board.isWhite)
     {
+        cout << "\033[0m" << endl
+             << "    a  b  c  d  e  f  g  h" << endl;
         for (int i = 7; i > -1; i--)
         {
             for (int j = 0; j < 8; j++)
             {
                 if (j == 0)
                 {
-                    cout << "\033[0m" << endl
+                    cout << "\033[0m"
                          << ' ' << i + 1 << ' ';
                 }
                 printSquare(board, 8 * i + j, moves);
+                if (j == 7)
+                {
+                    cout << "\033[0m"
+                         << ' ' << i + 1 << ' ' << endl;
+                }
             }
         }
-        cout << "\033[0m" << endl
-             << "    a  b  c  d  e  f  g  h" << endl;
+        cout << "    a  b  c  d  e  f  g  h" << endl;
     }
     else
     {
+        cout << "    h  g  f  e  d  c  b  a" << endl;
         for (int i = 0; i < 8; i++)
         {
             for (int j = 7; j > -1; j--)
             {
                 if (j == 7)
                 {
-                    cout << "\033[0m" << endl
+                    cout << "\033[0m"
                          << ' ' << i + 1 << ' ';
                 }
                 printSquare(board, 8 * i + j, moves);
+                if (j == 0)
+                {
+                    cout << "\033[0m"
+                         << ' ' << i + 1 << ' ' << endl;
+                }
             }
         }
-        cout << "\033[0m" << endl
-             << "    h  g  f  e  d  c  b  a" << endl;
+        cout << "    h  g  f  e  d  c  b  a" << endl;
     }
 }

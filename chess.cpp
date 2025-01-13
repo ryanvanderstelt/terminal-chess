@@ -40,7 +40,10 @@ int main()
 
     // add piece to center
 
-    board.board[35] = 'N';
+    board.board[12] = '0';
+    board.board[28] = 'P';
+    board.board[52] = '0';
+    board.board[36] = 'p';
 
     cout << "Welcome to Terminal Chess!" << endl;
     while (true)
@@ -48,15 +51,6 @@ int main()
         int loc_piece;
         int loc_move;
         bool validMove = false;
-
-        if (board.isWhite)
-        {
-            cout << "White's Turn!" << endl;
-        }
-        else
-        {
-            cout << "Black's Turn!" << endl;
-        }
 
         while (!validMove)
         {
@@ -67,9 +61,17 @@ int main()
             print_list.reserve(3);
             while (true)
             {
+                cout << endl;
                 printBoard(board);
-                cout << endl
-                     << "Enter coord of piece: ";
+                if (board.isWhite)
+                {
+                    cout << "White's Turn!" << endl;
+                }
+                else
+                {
+                    cout << "Black's Turn!" << endl;
+                }
+                cout << "Enter coord of piece: ";
                 cin >> col_row;
                 loc_piece = (col_row[0] - 'a') + 8 * (col_row[1] - '1');
                 if (loc_piece > -1 && loc_piece < 64 && board.board[loc_piece] != '0' && (islower(board.board[loc_piece]) > 0) != board.isWhite)
@@ -82,6 +84,7 @@ int main()
             moves_list = board.listMoves(loc_piece);
             print_list.insert(print_list.end(), moves_list.begin(), moves_list.end());
 
+            cout << endl;
             printBoard(board, print_list);
             cout << endl
                  << "Enter coord of destination: ";

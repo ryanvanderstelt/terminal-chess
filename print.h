@@ -140,7 +140,7 @@ void printBoard(Board &board, vector<int> moves = {})
 {
     if (board.isWhite)
     {
-        cout << "\033[0m" << endl
+        cout << "\033[0m"
              << "    a  b  c  d  e  f  g  h" << endl;
         for (int i = 7; i > -1; i--)
         {

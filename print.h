@@ -20,7 +20,7 @@ void printSquare(Board &board, int loc, vector<int> moves = {})
     if (!moves.empty() && loc == moves.front())
     {
 
-        if (isupper(board.board[loc]->type))
+        if (isupper(board.board[loc]))
         {
             white_square = 0;
             cout << "\033[37;46m";
@@ -33,16 +33,31 @@ void printSquare(Board &board, int loc, vector<int> moves = {})
     }
     else if (count(moves.begin(), moves.end(), loc) > 0)
     {
-
-        if (isupper(board.board[loc]->type))
+        if (board.board[loc] != '0')
         {
-            white_square = 0;
-            cout << "\033[37;42m";
+            if (isupper(board.board[loc]))
+            {
+                white_square = 0;
+                cout << "\033[37;41m";
+            }
+            else
+            {
+                white_square = 1;
+                cout << "\033[30;41m";
+            }
         }
         else
         {
-            white_square = 1;
-            cout << "\033[30;42m";
+            if (isupper(board.board[loc]))
+            {
+                white_square = 0;
+                cout << "\033[37;42m";
+            }
+            else
+            {
+                white_square = 1;
+                cout << "\033[30;42m";
+            }
         }
     }
     else if (white_square)
@@ -54,12 +69,19 @@ void printSquare(Board &board, int loc, vector<int> moves = {})
         cout << "\033[37;40m";
     }
 
-    if (!board.board[loc])
+    if (board.board[loc] == '0')
     {
-        cout << "   ";
+        if (count(moves.begin(), moves.end(), loc) > 0)
+        {
+            cout << ' ' << (char)(loc % 8 + 'a') << (char)(loc / 8 + '1');
+        }
+        else
+        {
+            cout << "   ";
+        }
         return;
     }
-    switch (board.board[loc]->type)
+    switch (board.board[loc])
     {
     case 'r':
         cout << ' ' << rook[white_square] << ' ';
@@ -114,9 +136,9 @@ void printSquare(Board &board, int loc, vector<int> moves = {})
     };
 }
 
-void printBoard(Board &board, bool pov_white, vector<int> moves = {})
+void printBoard(Board &board, vector<int> moves = {})
 {
-    if (pov_white)
+    if (board.isWhite)
     {
         for (int i = 7; i > -1; i--)
         {

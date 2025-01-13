@@ -2,7 +2,6 @@
 #include <vector>
 #include <algorithm>
 #include "print.h"
-#include "board.h"
 
 using namespace std;
 
@@ -22,8 +21,8 @@ Game Plan:
 3. List moves for piece
     a. Check if in bounds
     b. Check if lands on ally
-    b. Check if active player will be in check
-    c. Display options
+    c. Check if active player will be in check
+    d. Display options
 4. User input for destination
     a. Any invalid move unfocuses piece (go back to step 2)
 5. Move piece to destination
@@ -38,16 +37,19 @@ Game Plan:
 int main()
 {
     Board board;
-    bool isWhitesTurn = true;
 
-    printBoard(board, isWhitesTurn);
+    // add piece to center
+
+    board.board[35] = 'N';
+
     cout << "Welcome to Terminal Chess!" << endl;
     while (true)
     {
-        int coord;
+        int loc_piece;
+        int loc_move;
         bool validMove = false;
 
-        if (isWhitesTurn)
+        if (board.isWhite)
         {
             cout << "White's Turn!" << endl;
         }
@@ -61,24 +63,26 @@ int main()
             char col_row[2];
             vector<int> moves_list;
             vector<int> print_list;
+            moves_list.reserve(3);
+            print_list.reserve(3);
             while (true)
             {
-                cout << "Enter coord of piece: ";
+                printBoard(board);
+                cout << endl
+                     << "Enter coord of piece: ";
                 cin >> col_row;
-                coord = (col_row[0] - 'a') + 8 * (col_row[1] - '1');
-                if (coord > -1 && coord < 64 && board.board[coord] && (islower(board.board[coord]->type) > 0) != isWhitesTurn)
+                loc_piece = (col_row[0] - 'a') + 8 * (col_row[1] - '1');
+                if (loc_piece > -1 && loc_piece < 64 && board.board[loc_piece] != '0' && (islower(board.board[loc_piece]) > 0) != board.isWhite)
                 {
-                    cout << board.board[coord]->type << endl
-                         << islower(board.board[coord]->type) << endl;
                     break;
                 }
             }
 
-            print_list.push_back(coord);
-            moves_list = board.listMoves(coord);
-            print_list.insert(moves_list.end(), moves_list.begin(), moves_list.end());
+            print_list.push_back(loc_piece);
+            moves_list = board.listMoves(loc_piece);
+            print_list.insert(print_list.end(), moves_list.begin(), moves_list.end());
 
-            printBoard(board, isWhitesTurn, print_list);
+            printBoard(board, print_list);
             cout << endl
                  << "Enter coord of destination: ";
             cin >> col_row;
@@ -88,24 +92,25 @@ int main()
             // may have to create temporary boards to see if king is in check
             // OR just one temp board without selected piece (smart maybe)
             //
-            validMove = true;
-        }
-        //
-        // Execute move  !!!FIGURE OUT EN PASSANT!!!
-        // See if check
-        if (board.inCheck(isWhitesTurn))
-        {
-            if (board.isCheckmate(isWhitesTurn))
+            loc_move = (col_row[0] - 'a') + (col_row[1] - '1') * 8;
+            while (!moves_list.empty())
             {
-                break;
+                if (moves_list.back() == loc_move)
+                {
+                    validMove = true;
+                    break;
+                }
+                moves_list.pop_back();
             }
-            cout << "Check!";
+            moves_list.clear();
+            print_list.clear();
         }
-        isWhitesTurn = !isWhitesTurn;
-        printBoard(board, isWhitesTurn);
+        board.board[loc_move] = board.board[loc_piece];
+        board.board[loc_piece] = '0';
+        board.isWhite = !board.isWhite;
     }
-    printBoard(board, isWhitesTurn);
-    if (isWhitesTurn)
+    printBoard(board);
+    if (board.isWhite)
     {
         cout << "White Wins!";
     }

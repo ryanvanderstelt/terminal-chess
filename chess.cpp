@@ -38,13 +38,6 @@ int main()
 {
     Board board;
 
-    // add piece to center
-
-    board.board[12] = '0';
-    board.board[28] = 'P';
-    board.board[52] = '0';
-    board.board[36] = 'p';
-
     cout << "Welcome to Terminal Chess!" << endl;
     while (true)
     {
@@ -110,6 +103,15 @@ int main()
         }
         board.board[loc_move] = board.board[loc_piece];
         board.board[loc_piece] = '0';
+        if (board.isWhite)
+        {
+            board.b_ep = -1;
+        }
+        else
+        {
+            board.w_ep = -1;
+        }
+
         board.isWhite = !board.isWhite;
     }
     printBoard(board);
